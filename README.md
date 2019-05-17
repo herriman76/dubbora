@@ -9,3 +9,15 @@
 与dubbo不同，我没有用spring中的xml自定义标签，感觉太复杂，我关注实现核心功能。
 也没用注解接口的方式。而是参考了mybatis的方式实现的。
 mybatis也是把接口转换成对一个数据库的操作。
+
+主要的类：
+客户端
+ dubbora/dubbura/src/main/java/dubbura/spring/ReferenceBean.java
+public class ReferenceBean<T>  implements FactoryBean, ApplicationContextAware, InitializingBean, DisposableBean{..}
+  在afterPropertiesSet()中产生了一个代理接口实现类。
+  
+服务端
+ dubbora/dubburaver/src/main/java/dubburaver/spring/ServiceBean.java
+public class ServiceBean<T> implements InitializingBean, DisposableBean, ApplicationContextAware, ApplicationListener, BeanNameAware {..}
+  在afterPropertiesSet()中进行了服务暴露。
+  
