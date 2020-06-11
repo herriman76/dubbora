@@ -1,23 +1,25 @@
 # dubbora
-模仿dubbo实现远程RPC调用，参考mybatis实现客户端代理，用这个spring的代理类实现一个远程调用，仅验证功能实现的项目。后期由于其它原因，没有时间与机会进一步完善与应用。
 
-我们已经有了一个消息中间件，但没有真正实现RPC功能，我想进一步模仿dubbo，在客户端实现一个接口的代理，把请求包装成消息发给服务端。
-服务端根据invocation找到真正的实现类进行处理，最后返回结果。
-这样客户端调用远程方法等同于调用本地方法。
+在公司通讯中间件的基础上，模仿dubbo实现远程RPC调用，仅验证功能实现。
 
+### 1. 功能
 
-与dubbo不同，我没有用spring中的xml自定义标签，感觉太复杂，我关注实现核心功能。
-也没用注解接口的方式。而是参考了mybatis的方式实现的。
-mybatis也是把接口转换成对一个数据库的操作。
+- 在客户端实现一个接口的代理，把请求包装成消息发给服务端。
+- 服务端根据invocation找到真正的实现类进行处理，最后返回结果。
+  这样客户端调用远程方法等同于调用本地方法。
 
-主要的类：
-客户端
- dubbora/dubbura/src/main/java/dubbura/spring/ReferenceBean.java
-public class ReferenceBean<T>  implements FactoryBean, ApplicationContextAware, InitializingBean, DisposableBean{..}
+### 2. 方案
+
+与dubbo不同，我没有用spring中的xml自定义标签，也没用注解接口的方式。验证项目仅关注实现核心功能，
+而是参考了mybatis的方式实现的，mybatis也是把接口转换成对一个数据库的操作。
+
+### 3. 主要的类
+
+- 客户端
+  dubbora/dubbura/src/main/java/dubbura/spring/ReferenceBean.java
+  public class ReferenceBean<T>  implements FactoryBean, ApplicationContextAware, InitializingBean, DisposableBean{..}
   在afterPropertiesSet()中产生了一个代理接口实现类。
-  
-服务端
- dubbora/dubburaver/src/main/java/dubburaver/spring/ServiceBean.java
-public class ServiceBean<T> implements InitializingBean, DisposableBean, ApplicationContextAware, ApplicationListener, BeanNameAware {..}
+- 服务端
+  dubbora/dubburaver/src/main/java/dubburaver/spring/ServiceBean.java
+  public class ServiceBean<T> implements InitializingBean, DisposableBean, ApplicationContextAware, ApplicationListener, BeanNameAware {..}
   在afterPropertiesSet()中进行了服务暴露。
-  
