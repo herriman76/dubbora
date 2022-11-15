@@ -11,7 +11,7 @@
 		<maven.compiler.encoding>utf8</maven.compiler.encoding>
 		
 		<spring.version>4.2.3.RELEASE</spring.version>
-		<jackson.version>2.1.4</jackson.version>
+		<jackson.version>2.12.7.1</jackson.version>
 	</properties>
   
 	<dependencies>
